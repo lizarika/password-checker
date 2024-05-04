@@ -18,3 +18,14 @@
 | 4f   | FalseForNonComplexPassword                | "!?#,<;:-(*()"   | Passed |
 | 4g   | FalseForNonComplexPassword                | " "              | Passed |
 | 4h   | FalseForNonComplexPassword                | ""               | Passed |
+
+
+9th homework. RestApiMocked test cases from swagger
+
+| N | Case                                                | Expected | Status |
+|---|-----------------------------------------------------|---------|--------|
+| 1 | getOrderByIdAndCheckResponseCodeIsOk                | 200     | Passed |
+| 2 | getOrderByInvalidIdAndCheckResponseCodeIsBadRequest | 400     | Passed |
+| 3 | getAllOrdersAndCheckResponseCodeIsOk                | 200     | Passed |
+| 4 | deleteOrderByIdAndCheckResponseCodeIsOk             | 204     | Passed |
+| 5 | deleteOrderByIdAndCheckResponseCodeIsBadRequest     | 400     | Passed |
