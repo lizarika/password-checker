@@ -1,9 +1,16 @@
 package api;
 
 import io.restassured.RestAssured;
+import org.apache.http.HttpStatus;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
+
 import static io.restassured.RestAssured.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class RestApiMocked {
 
@@ -46,15 +53,13 @@ public class RestApiMocked {
     public void deleteOrderByIdAndCheckResponseCodeIsOk(){
         get("/test-orders/9");
         given().
-                log().
-                all().
+                header("api_key","1234567890123456").
                 when().
-        header("api_ky","1234567890123456")
+                       delete("/test-orders/9")
                 .then()
-                .log()
-                .all()
                 .statusCode(204);
 }
+
 
     @Test
     public void deleteOrderByIdAndCheckResponseCodeIsBadRequest(){
@@ -63,11 +68,62 @@ public class RestApiMocked {
                 log().
                 all().
                 when().
-                header("api_ky","1234567890123456")
+                header("api_key","1234567890123456")
                 .then()
                 .log()
                 .all()
                 .statusCode(400);
+    }
+
+    //10th  lesson
+    @ParameterizedTest
+    @ValueSource(ints = {1,9,10})
+    public void getOrderByIdAndCheckResponseCodeIsOk(int orderId){
+        int responseOrderId =
+        given().
+                log().
+                all().
+                when().
+                get("/test-orders/" + orderId)
+                //get("/test-orders/{orderId}, orderId")
+                .then()
+                .log()
+                .all()
+                .assertThat()
+                .statusCode(HttpStatus.SC_OK)
+                .and()
+                .extract().path("id");
+        Assertions.assertEquals(orderId, responseOrderId);
+
+}
+
+
+    // 10th homework
+    @ParameterizedTest
+    @CsvSource({
+            "Name_01, Password_01",
+            "Name_02, Password_02",
+            "Name_03, Password_03",
+            "Name_04, Password_04"
+    })
+    public void testWithCsvSource(String username, String password){
+        String response = given().
+                log()
+                .all()
+                .when()
+                .get("/test-orders?username={username}&password={password}", username, password)
+//                .get("/test-orders/{orderId}", orderId)
+                .then()
+                .log()
+                .all()
+                .statusCode(HttpStatus.SC_OK)
+                .and()
+                .extract()
+                .path("apiKey");
+
+        Assertions.assertNotNull(response);
+
+
     }
 
 }

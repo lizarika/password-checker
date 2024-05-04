@@ -29,3 +29,10 @@
 | 3 | getAllOrdersAndCheckResponseCodeIsOk                | 200     | Passed |
 | 4 | deleteOrderByIdAndCheckResponseCodeIsOk             | 204     | Passed |
 | 5 | deleteOrderByIdAndCheckResponseCodeIsBadRequest     | 400     | Passed |
+
+
+10th homework. Parametrized test
+
+| N | Case                               | Expected | Status |
+|---|------------------------------------|---------|--------|
+| 1 | testWithCsvSource                  | 200     | Passed |
