@@ -1,18 +1,25 @@
 package api;
 
+import com.google.gson.Gson;
+import dto.OrderDtoMocked;
 import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
+import utils.RandomDataGenerator;
 
 import static io.restassured.RestAssured.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class RestApiMocked {
+
 
     @BeforeAll
     public static void setup(){
@@ -125,5 +132,70 @@ public class RestApiMocked {
 
 
     }
+
+    //11th lesson
+    @Test
+    public void createOrderDtoMockedAndCheckResponseCodeIsOK(){
+        //OrderDtoMocked orderDtoMocked = new OrderDtoMocked("OPEN", 0, "customer", "55005500", "orderComment", 0);
+
+        OrderDtoMocked orderDtoMocked = new OrderDtoMocked();
+
+
+
+        orderDtoMocked.setStatus("OPEN");
+        orderDtoMocked.setCourierId(0);
+        orderDtoMocked.setCustomerName(RandomDataGenerator.generateName());
+        orderDtoMocked.setCustomerPhone(RandomDataGenerator.generatePhone());
+        orderDtoMocked.setComment(RandomDataGenerator.generateComment());
+        orderDtoMocked.setId(3);
+
+        given().
+                header("Content-Type", "application/json").
+                log().
+                all().
+                when().
+                body( new Gson().toJson(orderDtoMocked) ).
+                post("/test-orders/").
+                then().
+                log().
+                all().
+                statusCode(HttpStatus.SC_OK);
+
+    }
+
+    @Test
+        public void createPUTOrderDtoMockedAndCheckResponseCodeIsOK(){
+        //OrderDtoMocked orderDtoMocked = new OrderDtoMocked("OPEN", 0, "customer", "55005500", "orderComment", 0);
+
+        OrderDtoMocked orderDtoMocked = new OrderDtoMocked();
+
+
+
+        orderDtoMocked.setStatus("OPEN");
+        orderDtoMocked.setCourierId(1);
+        orderDtoMocked.setCustomerName(RandomDataGenerator.generateName());
+        orderDtoMocked.setCustomerPhone(RandomDataGenerator.generatePhone());
+        orderDtoMocked.setComment(RandomDataGenerator.generateComment());
+        orderDtoMocked.setId(2);
+
+
+        given().
+                header("accept", "application/json").
+                header("api-key", "1234567890123456").
+                contentType(ContentType.JSON).
+                log().
+                all().
+                when().
+                body( new Gson().toJson(orderDtoMocked) ).
+                put("/test-orders/{OrderId}", 2).
+                then().
+                log().
+                all()
+                .statusCode(HttpStatus.SC_OK)
+                .extract()
+                .path("status");
+
+    }
+
 
 }

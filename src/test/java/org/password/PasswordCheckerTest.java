@@ -28,7 +28,7 @@ public class PasswordCheckerTest {
         assertFalse( PasswordChecker.checkPasswordComplexity("abcdefjklp") );
         assertFalse( PasswordChecker.checkPasswordComplexity("1234567890") );
         assertFalse( PasswordChecker.checkPasswordComplexity("abcd1234") );
-//        assertFalse( PasswordChecker.checkPasswordComplexity("hj771234./=") );
+//        assertFalse( PasswordChecker.checkPasswordComplexity("771234./=") );
         assertFalse( PasswordChecker.checkPasswordComplexity("asdf,./=") );
         assertFalse( PasswordChecker.checkPasswordComplexity("!?#,<;:-(*()") );
         assertFalse( PasswordChecker.checkPasswordComplexity(" ") );
@@ -36,6 +36,7 @@ public class PasswordCheckerTest {
 
 
 }
+
 
 
 }
